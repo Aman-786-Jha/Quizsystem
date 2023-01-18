@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        button{
+            color: red;
+            border : 2px solid black ;
+            border-radius: 10px;
+        }
+        label{
+            display: none;
+            color:green;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-3 pt-3">
+        <h1 class="quiz" style="color:rgb(224, 37, 196)">Django Quiz section</h1>
+        <div>
+            {% for x in page_obj %}
+            <h5 style="color:blue">Q.no-{{x.id}}){{x.questions}}</h5>
+            <form action="">
+                <div>
+                    <input type="radio" class="rb" name="{{x.id}}" value="{{x.option1}}">{{x.option1}} <br>
+                    <input type="radio" class="rb" name="{{x.id}}" value="{{x.option2}}">{{x.option2}} <br>
+                    <input type="radio" class="rb" name="{{x.id}}" value="{{x.option3}}">{{x.option3}} <br>
+                    <input type="radio" class="rb" name="{{x.id}}" value="{{x.option4}}">{{x.option4}} <br>
+                    <label class="rbkl" id="label">Correct answer:{{x.answers}}</label>
+
+
+                </div>
+                
+            </form>
+            <br>
+            
+            
+
+            
+            {% endfor %}
+            <div>
+                <span>
+                    {% if page_obj.has_previous %} 
+                    <a href="?page={{page_obj.previous_page_number}}">Previous</a>
+                    {% endif %} 
+
+                    <span>{{page_obj.number}}</span>
+
+                    {% if page_obj.has_next %} 
+                    <a href="?page={{page_obj.next_page_number}}">Next</a>
+                    {% endif %} 
+
+                </span>
+            </div>
+
+            
+            <button type="submit" value="Submit" id="btn" onclick="getanswers()">Submit</button><br>
+            
+            <b id="useranswers"></b>
+
+        </div>
+        
+        
+
+    </div>
+    <script>
+        $(document).ready(function(){
+            $("#btn").click(function(){
+                $(".rbkl").show();
+                $(".rb").attr("disabled",true);
+            });
+        });
+
+
+        function getanswers(){
+            document.getElementById("useranswers").innerHTML="";
+            let e = document.getElementsByTagName("input");
+            for(i=0;i<=e.length;i++){
+                if(e[i].type=="radio"){
+                    if(e[i].checked){
+                        document.getElementById("useranswers").innerHTML +="Q" + ")" + e[i].name + "The answer you ticked is :" + e[i].value+ "<br>";
+                    }
+                }
+            }
+
+        }
+    </script>
+</body>
+</html>
